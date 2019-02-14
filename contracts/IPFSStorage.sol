@@ -17,7 +17,7 @@ contract IPFSStorage {
         uint8 size;
     }
 
-    mapping (string => Multihash) private entries;
+    mapping (string => Multihash[]) private entries;
 
     event EntrySet (
         string indexed email,
@@ -25,8 +25,6 @@ contract IPFSStorage {
         uint8 hashFunction,
         uint8 size
     );
-
-    event EntryDeleted (string indexed email);
 
     /**
     * @dev associate a multihash entry with the sender address
@@ -36,25 +34,17 @@ contract IPFSStorage {
     */
     function setEntry(string email, bytes32 _digest, uint8 _hashFunction, uint8 _size) public {
         Multihash memory entry = Multihash(_digest, _hashFunction, _size);
-        entries[email] = entry;
+        entries[email].push(entry);
         emit EntrySet(email, _digest, _hashFunction, _size);
-    }
-
-    /**
-    * @dev deassociate any multihash entry with the sender address
-    */
-    function clearEntry(string email) public {
-        require(entries[email].digest != 0);
-        delete entries[email];
-        emit EntryDeleted(email);
     }
 
     /**
     * @dev retrieve multihash entry associated with an address
     * @param _email email used as key
     */
-    function getEntry(string _email) public view returns(bytes32 digest, uint8 hashfunction, uint8 size) {
-        Multihash storage entry = entries[_email];
+    function getEntry(string _email, uint index) public view returns(bytes32 digest, uint8 hashfunction, uint8 size) {
+        require(index < entries[_email].length, 'Invalid index');
+        Multihash storage entry = entries[_email][index];
         return (entry.digest, entry.hashFunction, entry.size);
     }
 }
