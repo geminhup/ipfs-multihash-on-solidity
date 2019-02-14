@@ -1,6 +1,5 @@
 pragma solidity 0.4.25;
 
-
 /**
  * @title IPFSStorage
  * @author Forest Fang (@saurfang)
@@ -11,7 +10,6 @@ pragma solidity 0.4.25;
  * Currently IPFS hash is 34 bytes long with first two segments represented as a single byte (uint8)
  * The digest is 32 bytes long and can be stored using bytes32 efficiently.
  */
- 
 contract IPFSStorage {
     struct Multihash {
         bytes32 digest;
@@ -53,7 +51,7 @@ contract IPFSStorage {
 
     /**
     * @dev retrieve multihash entry associated with an address
-    * @param _address address used as key
+    * @param _email email used as key
     */
     function getEntry(string _email) public view returns(bytes32 digest, uint8 hashfunction, uint8 size) {
         Multihash storage entry = entries[_email];
