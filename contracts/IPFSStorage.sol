@@ -3,6 +3,7 @@ pragma solidity 0.4.25;
 /**
  * @title IPFSStorage
  * @author Forest Fang (@saurfang)
+ * @author geminhup (@geminhup)
  * @dev Stores IPFS (multihash) hash by address. A multihash entry is in the format
  * of <varint hash function code><varint digest size in bytes><hash function output>
  * See https://github.com/multiformats/multihash
